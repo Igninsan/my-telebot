@@ -1,4 +1,5 @@
 import asyncio
+import logging
 from bot_config import dp, bot
 from handlers.myinfo import myinfo_router
 from handlers.other_messages import other_router
@@ -16,4 +17,5 @@ async def main():
 
 
 if __name__ == '__main__':
+    logging.basicConfig(level=logging.INFO)
     asyncio.run(main())
