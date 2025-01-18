@@ -1,15 +1,20 @@
 import asyncio
 import logging
-from bot_config import dp, bot
+from aiogram import Bot
+
+from bot_config import dp, bot, database
 from handlers.advertisement import advertisement_router
 from handlers.dishes_catalog import catalog_router
 from handlers.feedback import feedback_router
 from handlers.myinfo import myinfo_router
 from handlers.other_messages import other_router
-from handlers.random import random_router
+from handlers.random_recipe import random_router
 from handlers.review_dialog import review_router
 from handlers.start import start_router
 
+
+async def on_startup(bot: Bot):
+    database.create_tables()
 
 async def main():
     dp.include_router(start_router)
@@ -21,6 +26,8 @@ async def main():
     dp.include_router(review_router)
 
     dp.include_router(other_router)
+
+    dp.startup.register(on_startup)
     await dp.start_polling(bot)
 
 

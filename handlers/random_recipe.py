@@ -17,7 +17,7 @@ omelette_image = types.FSInputFile("images/омлет.jpg")
 
 image_list = [salad_ezhik_image, borsch_image, omelette_image]
 
-@random_router.message(Command('random'))
+@random_router.message(Command('random_recipe'))
 async def random_handler(message: types.Message):
     random_recipe = randint(0, len(recipe_list) - 1)
     await message.answer_photo(photo=image_list[random_recipe], caption=recipe_list[random_recipe])
