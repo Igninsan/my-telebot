@@ -5,6 +5,7 @@ from aiogram import Bot
 from bot_config import dp, bot, database
 from handlers.advertisement import advertisement_router
 from handlers.dishes_catalog import catalog_router
+from handlers.dishes_management import dish_admin_router
 from handlers.feedback import feedback_router
 from handlers.myinfo import myinfo_router
 from handlers.other_messages import other_router
@@ -24,6 +25,7 @@ async def main():
     dp.include_router(catalog_router)
     dp.include_router(feedback_router)
     dp.include_router(review_router)
+    dp.include_router(dish_admin_router)
 
     dp.include_router(other_router)
 

@@ -32,7 +32,8 @@ async def start_handler(message: types.Message):
                          'Мои команды:\n'
                          '/start - начать работу с ботом\n'
                          '/myinfo - информация о пользователе\n'
-                         '/random_recipe - случайное блюдо\n', reply_markup=kb)
+                         '/random_recipe - случайное блюдо\n'
+                         '/newdish - добавить блюдо в базу данных', reply_markup=kb)
 
 
 @start_router.callback_query(F.data == 'about_us')

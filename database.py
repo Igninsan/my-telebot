@@ -18,7 +18,16 @@ class Database:
                 extra_comments TEXT
             )
             ''')
-
+            cursor.execute('''
+            CREATE TABLE IF NOT EXISTS dishes(
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT,
+                price INTEGER,
+                description TEXT,
+                category TEXT,
+                options TEXT
+                )
+            ''')
 
     def save_review(self, data: dict):
         with sqlite3.connect(self.path) as connection:
@@ -31,3 +40,12 @@ class Database:
                 (data['name'], data['phone_number'], data['date'], data['rate'], data['extra_comments'])
             )
 
+    def save_dish(self, data: dict):
+        with sqlite3.connect(self.path) as connection:
+            cursor = connection.cursor()
+            cursor.execute('''
+            INSERT INTO dishes (name, price, description, category, options)
+            VALUES(?, ?, ?, ?, ?)
+            ''',
+            (data['name'], data['price'], data['description'], data['category'], data['options'])
+            )
