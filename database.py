@@ -22,10 +22,11 @@ class Database:
             CREATE TABLE IF NOT EXISTS dishes(
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 name TEXT,
-                price INTEGER,
+                price FLOAT,
                 description TEXT,
                 category TEXT,
-                options TEXT
+                options TEXT,
+                image TEXT
                 )
             ''')
 
@@ -44,16 +45,16 @@ class Database:
         with sqlite3.connect(self.path) as connection:
             cursor = connection.cursor()
             cursor.execute('''
-            INSERT INTO dishes (name, price, description, category, options)
-            VALUES(?, ?, ?, ?, ?)
+            INSERT INTO dishes (name, price, description, category, options, image)
+            VALUES(?, ?, ?, ?, ?, ?)
             ''',
-            (data['name'], data['price'], data['description'], data['category'], data['options'])
+            (data['name'], data['price'], data['description'], data['category'], data['options'], data['image'])
             )
 
     def get_all_dishes(self):
         with sqlite3.connect(self.path) as connection:
             cursor = connection.cursor()
-            result = cursor.execute('SELECT id, name, price, description FROM dishes')
+            result = cursor.execute('SELECT name, price, description, category, options, image FROM dishes')
             result.row_factory = sqlite3.Row
             data = result.fetchall()
             return [dict(row) for row in data]

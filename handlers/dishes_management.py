@@ -1,4 +1,4 @@
-from aiogram import Router, types
+from aiogram import Router, types, F
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
@@ -15,6 +15,7 @@ class Dish(StatesGroup):
     description = State()
     category = State()
     options = State()
+    image = State()
 
 
 @dish_admin_router.message(Command('newdish'))
@@ -46,7 +47,7 @@ async def process_price(message: types.Message, state: FSMContext):
 
 
 @dish_admin_router.message(Dish.description)
-async def process_name(message: types.Message, state: FSMContext):
+async def process_description(message: types.Message, state: FSMContext):
     kb = types.InlineKeyboardMarkup(
         inline_keyboard=[
         [
@@ -66,15 +67,24 @@ async def process_name(message: types.Message, state: FSMContext):
 
 
 @dish_admin_router.callback_query(Dish.category)
-async def process_name(callback: types.callback_query, state: FSMContext):
+async def process_category(callback: types.callback_query, state: FSMContext):
     await state.update_data(category=callback.data)
     await callback.message.answer('Введите варианты порций блюда')
     await state.set_state(Dish.options)
 
 
 @dish_admin_router.message(Dish.options)
-async def process_name(message: types.Message, state: FSMContext):
+async def process_options(message: types.Message, state: FSMContext):
     await state.update_data(options=message.text)
+    await message.answer('Отправьте фото блюда')
+    await state.set_state(Dish.image)
+
+
+@dish_admin_router.message(Dish.image, F.photo)
+async def process_image(message: types.Message, state: FSMContext):
+    images = message.photo
+    biggest_image = images[-1]
+    await state.update_data(image=biggest_image.file_id)
     await message.answer('Спасибо, блюдо было добавлено')
     data = await state.get_data()
     print(data)

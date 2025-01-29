@@ -14,14 +14,15 @@ async def start_handler(message: types.Message):
         inline_keyboard=[
             [
                 types.InlineKeyboardButton(text='каталог блюд', callback_data='dishes_catalog'),
-                types.InlineKeyboardButton(text='реклама', callback_data='advertisement')
+                types.InlineKeyboardButton(text='каталог блюд (страницы)', callback_data='dishes_catalog_pagination')
             ],
             [
                 types.InlineKeyboardButton(text='обратная связь', callback_data='feedback'),
                 types.InlineKeyboardButton(text='о нас', callback_data='about_us')
             ],
             [
-                types.InlineKeyboardButton(text='оставить отзыв', callback_data='review')
+                types.InlineKeyboardButton(text='оставить отзыв', callback_data='review'),
+                types.InlineKeyboardButton(text="реклама", callback_data='advertisement')
             ]
         ]
     )
